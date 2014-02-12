@@ -4,7 +4,7 @@
 {{range .blogs}}
     <li>
         <a href="/view/{{.Id}}">{{.Title}}</a> 
-        from {{.Created}}
+        @ {{.Created}}
         <a href="/edit/{{.Id}}">Edit</a>
         <a href="/delete/{{.Id}}">Delete</a>
     </li>
