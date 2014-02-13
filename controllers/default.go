@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/astaxie/beego"
+	"github.com/russross/blackfriday"
 )
 
 type IndexController struct {
@@ -14,7 +15,16 @@ type IndexController struct {
 }
 
 func (this *IndexController) Get() {
-	this.Data["blogs"] = models.GetAll()
+	te := models.GetAll()
+	var res []models.Blog
+	for _, post := range te {
+		temp := []byte(post.Content)
+		temp2 := blackfriday.MarkdownBasic(temp)
+		post.Content = CToGoString(temp2[:])
+		res = append(res, post)
+	}
+	this.Data["blogs"] = res
+
 	this.Layout = "layout.tpl"
 	this.TplNames = "index.html"
 	this.LayoutSections = make(map[string]string)
@@ -28,8 +38,11 @@ type ViewController struct {
 func (this *ViewController) Get() {
 	//	inputs := this.Input()
 	id, _ := strconv.Atoi(this.Ctx.Input.Param(":id"))
-	this.Data["Post"] = models.GetBlog(id)
-	fmt.Println(models.GetBlog(id))
+	post := models.GetBlog(id)
+	temp := []byte(post.Content)
+	temp2 := blackfriday.MarkdownBasic(temp)
+	post.Content = CToGoString(temp2[:])
+	this.Data["Post"] = post
 	this.Layout = "layout.tpl"
 	this.TplNames = "view.html"
 	this.LayoutSections = make(map[string]string)
@@ -92,4 +105,15 @@ func (this *DeleteController) Get() {
 	fmt.Println(id)
 	models.DelBlog(id)
 	this.Ctx.Redirect(302, "/")
+}
+
+func CToGoString(c []byte) string {
+	n := -1
+	for i, b := range c {
+		if b == 0 {
+			break
+		}
+		n = i
+	}
+	return string(c[:n+1])
 }
