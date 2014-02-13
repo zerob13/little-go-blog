@@ -1,12 +1,17 @@
 <h1>Blog posts</h1>
 
-<ul>
-{{range .blogs}}
-    <li>
-        <a href="/view/{{.Id}}">{{.Title}}</a> 
-        @ {{.Created}}
-        <a href="/edit/{{.Id}}">Edit</a>
-        <a href="/delete/{{.Id}}">Delete</a>
-    </li>
-{{end}}
-</ul>
+<div class="list-group">
+    {{range .blogs}}
+    <div class="list-group-item">
+            <h3 class="list-group-item-heading"><a href="/view/{{.Id}}">{{.Title}}</a>
+                <small class="pull-right">{{.Created}}
+                        <a class="btn btn-sm btn-info" role="button" href="/edit/{{.Id}}">Edit</a>
+                        <a class="btn btn-sm btn-danger" role="button" href="/delete/{{.Id}}">Delete</a>
+                </small>
+            </h3>
+         <div class="panel-body">
+        {{.Content}}
+        </div>
+    </div>
+    {{end}}
+</div>
