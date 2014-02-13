@@ -1,4 +1,12 @@
-<h1>{{.Post.Title}}</h1>
-{{.Post.Created}}<br/>
-
-{{.Post.Content}}<br /> 
+<div class="jumbotron">
+    <h2><a href="/view/{{.Id}}">{{.Post.Title}}</a>
+    </h2>
+        <h4 class="pull-right">{{.Post.Created}}
+            <a class="btn btn-sm btn-info" role="button" href="/edit/{{.Post.Id}}">Edit</a>
+            <a class="btn btn-sm btn-danger" role="button" href="/delete/{{.Post.Id}}">Delete</a>
+        </h4>
+        <br>
+    <p class="lead">
+        {{.Post.Content}}
+    </p>
+</div>
