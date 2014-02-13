@@ -19,7 +19,7 @@ func (this *IndexController) Get() {
 	var res []models.Blog
 	for _, post := range te {
 		temp := []byte(post.Content)
-		temp2 := blackfriday.MarkdownBasic(temp)
+		temp2 := blackfriday.MarkdownCommon(temp)
 		post.Content = string(temp2)
 		res = append(res, post)
 	}
@@ -40,7 +40,7 @@ func (this *ViewController) Get() {
 	id, _ := strconv.Atoi(this.Ctx.Input.Param(":id"))
 	post := models.GetBlog(id)
 	input := []byte(post.Content)
-	output := blackfriday.MarkdownBasic(input)
+	output := blackfriday.MarkdownCommon(input)
 	post.Content = string(output)
 	this.Data["Post"] = post
 	this.Layout = "layout.tpl"
@@ -105,15 +105,4 @@ func (this *DeleteController) Get() {
 	fmt.Println(id)
 	models.DelBlog(id)
 	this.Ctx.Redirect(302, "/")
-}
-
-func CToGoString(c []byte) string {
-	n := -1
-	for i, b := range c {
-		if b == 0 {
-			break
-		}
-		n = i
-	}
-	return string(c[:n+1])
 }
