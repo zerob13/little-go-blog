@@ -1,0 +1,9 @@
+<h2>Edit {{.Post.Title}}</h2>
+
+<b>New Blog Post</b>
+<form action="" method="post">
+Title: <input class="form-control input-lg" placeholder="Title" type="text" name="title" value="{{.Post.Title}}"><br>
+Content： <textarea name="content" class="form-control" rows="30">{{.Post.Content}}</textarea>
+<input type="hidden" name="id" value="{{.Post.Id}}">
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>

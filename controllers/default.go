@@ -16,7 +16,9 @@ type IndexController struct {
 func (this *IndexController) Get() {
 	this.Data["blogs"] = models.GetAll()
 	this.Layout = "layout.tpl"
-	this.TplNames = "index.tpl"
+	this.TplNames = "index.html"
+	this.LayoutSections = make(map[string]string)
+	this.LayoutSections["MenuTpl"] = "menu/home.tpl"
 }
 
 type ViewController struct {
@@ -29,7 +31,9 @@ func (this *ViewController) Get() {
 	this.Data["Post"] = models.GetBlog(id)
 	fmt.Println(models.GetBlog(id))
 	this.Layout = "layout.tpl"
-	this.TplNames = "view.tpl"
+	this.TplNames = "view.html"
+	this.LayoutSections = make(map[string]string)
+	this.LayoutSections["MenuTpl"] = "menu/home.tpl"
 }
 
 type NewController struct {
@@ -38,7 +42,9 @@ type NewController struct {
 
 func (this *NewController) Get() {
 	this.Layout = "layout.tpl"
-	this.TplNames = "new.tpl"
+	this.TplNames = "new.html"
+	this.LayoutSections = make(map[string]string)
+	this.LayoutSections["MenuTpl"] = "menu/new.tpl"
 }
 
 func (this *NewController) Post() {
@@ -60,7 +66,9 @@ func (this *EditController) Get() {
 	id, _ := strconv.Atoi(this.Ctx.Input.Param(":id"))
 	this.Data["Post"] = models.GetBlog(id)
 	this.Layout = "layout.tpl"
-	this.TplNames = "edit.tpl"
+	this.TplNames = "edit.html"
+	this.LayoutSections = make(map[string]string)
+	this.LayoutSections["MenuTpl"] = "menu/home.tpl"
 }
 
 func (this *EditController) Post() {
@@ -83,6 +91,5 @@ func (this *DeleteController) Get() {
 	//this.Data["Post"] =
 	fmt.Println(id)
 	models.DelBlog(id)
-
 	this.Ctx.Redirect(302, "/")
 }
