@@ -20,7 +20,7 @@ func (this *IndexController) Get() {
 	for _, post := range te {
 		temp := []byte(post.Content)
 		temp2 := blackfriday.MarkdownBasic(temp)
-		post.Content = CToGoString(temp2[:])
+		post.Content = string(temp2)
 		res = append(res, post)
 	}
 	this.Data["blogs"] = res
@@ -39,9 +39,9 @@ func (this *ViewController) Get() {
 	//	inputs := this.Input()
 	id, _ := strconv.Atoi(this.Ctx.Input.Param(":id"))
 	post := models.GetBlog(id)
-	temp := []byte(post.Content)
-	temp2 := blackfriday.MarkdownBasic(temp)
-	post.Content = CToGoString(temp2[:])
+	input := []byte(post.Content)
+	output := blackfriday.MarkdownBasic(input)
+	post.Content = string(output)
 	this.Data["Post"] = post
 	this.Layout = "layout.tpl"
 	this.TplNames = "view.html"
