@@ -60,7 +60,7 @@ func (this *EditController) Get() {
 	id, _ := strconv.Atoi(this.Ctx.Input.Param(":id"))
 	this.Data["Post"] = models.GetBlog(id)
 	this.Layout = "layout.tpl"
-	this.TplNames = "new.tpl"
+	this.TplNames = "edit.tpl"
 }
 
 func (this *EditController) Post() {
@@ -80,6 +80,9 @@ type DeleteController struct {
 
 func (this *DeleteController) Get() {
 	id, _ := strconv.Atoi(this.Ctx.Input.Param(":id"))
-	this.Data["Post"] = models.GetBlog(id)
+	//this.Data["Post"] =
+	fmt.Println(id)
+	models.DelBlog(id)
+
 	this.Ctx.Redirect(302, "/")
 }

@@ -65,11 +65,19 @@ func SaveBlog(blog Blog) (bg Blog) {
 	return bg
 }
 
-func DelBlog(blog Blog) {
-	db := GetLink()
-	db.Delete(&blog)
+func DelBlog(id int) {
+	//db := GetLink()
+	//db.Delete(&blog)
+	db, derr := sql.Open("sqlite3", "db/data.sqlite")
+	checkErr(derr)
+	stmt, err := db.Prepare("delete from blog where id=?")
+	checkErr(err)
+	_, err = stmt.Exec(id)
+	checkErr(err)
+
 	return
 }
+
 func checkErr(err error) {
 	if err != nil {
 		panic(err)
